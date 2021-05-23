@@ -11,3 +11,7 @@ def dashboard(response):
 # products view 
 def products(response):
     return render(response, 'main/products.html')
+
+# customer view 
+def customers(response):
+    return render(response, 'accounts/customer.html')
