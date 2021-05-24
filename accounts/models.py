@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.deletion import CASCADE
 
 
 
@@ -34,7 +35,7 @@ class Order (models.Model):
             ('Delivered', 'Delivered'),
             )
 
-    # customer =
+    customer = models.ForeignKey(Customer, null=True, on_delete=CASCADE)
     # product =
     date_created=models.DateTimeField(auto_now_add=True, null=True)
     status=models.CharField(max_length=200, null=True, choices=STATUS)
