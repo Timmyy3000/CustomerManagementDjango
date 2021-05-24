@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import *
+from .forms import *
 
 # home page
 def index(response):
@@ -48,5 +49,6 @@ def customer(response, pk):
     return render(response, 'accounts/customer.html', context )
 
 def create_order(response):
-    context = {}
+    form = OrderForm()
+    context = {'form':form}
     return render(response, 'accounts/order_form.html', context)
