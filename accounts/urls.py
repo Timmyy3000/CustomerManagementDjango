@@ -5,9 +5,9 @@ from . import views
 
 
 urlpatterns = [
-    path('',views.index),
+    path('',views.index, name='home'),
     path('dashboard/', views.dashboard, name="dashboard"),
     path('products/', views.products, name="products"),
-    path('customers/', views.customers, name="customers")
+    path('customer/<int:pk>/', views.customer, name="customer")
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

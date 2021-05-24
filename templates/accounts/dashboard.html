@@ -19,12 +19,16 @@
 	
 					<th>Customer</th>
 					<th>Orders</th>
+                    <th></th>
 				</tr>
 
-                {% for customer in customers  %}
+                {% for customer in customers %}
                     <tr>
+
                         <td>{{customer.name}}</td>
                         <td>{{customer.email}}</td>
+                        <td><a href={% url 'customer' customer.id %} class='btn-outline-primary btn '>View</a></td>
+
                     </tr>
                 {% endfor %}
 
