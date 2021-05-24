@@ -46,3 +46,7 @@ def customer(response, pk):
         'total_orders' : total_orders
     }
     return render(response, 'accounts/customer.html', context )
+
+def create_order(response):
+    context = {}
+    return render(response, 'accounts/order_form.html', context)
