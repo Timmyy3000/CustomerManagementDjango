@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 {% block navbar %}{% include 'partials/navbar.html' %}{% endblock navbar %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <form action="" method ="POST">
     {% csrf_token %}
-    {{form}}
+    {{form | crispy}}
     <input type="submit" name ="Submit">
 </form>
 {% endblock content %}

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.http import request
+from django.shortcuts import redirect, render
 from .models import *
 from .forms import *
 
@@ -49,6 +50,20 @@ def customer(response, pk):
     return render(response, 'accounts/customer.html', context )
 
 def create_order(response):
+    form = OrderForm()
+
+    if response.method == "POST" :
+        
+        form = OrderForm(response.POST)
+        if form.is_valid() :
+            form.save()
+
+            return redirect('/dashboard/')
+
+    context = {'form':form}
+    return render(response, 'accounts/order_form.html', context)
+
+def update_order(response):
     form = OrderForm()
     context = {'form':form}
     return render(response, 'accounts/order_form.html', context)
