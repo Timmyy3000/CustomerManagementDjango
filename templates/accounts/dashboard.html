@@ -16,10 +16,17 @@
 			<a class="btn btn-primary  btn-sm btn-block" href="">Create Customer</a>
 			<table class="table table-sm">
 				<tr>
-					<th></th>
+	
 					<th>Customer</th>
 					<th>Orders</th>
 				</tr>
+
+                {% for customer in customers  %}
+                    <tr>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.email}}</td>
+                    </tr>
+                {% endfor %}
 
 			</table>
 		</div>
@@ -38,6 +45,16 @@
 					<th>Update</th>
 					<th>Remove</th>
 				</tr>
+
+                {% for order in orders  %}
+                    <tr>
+                        <td>{{order.product}}</td>
+                        <td>{{order.date_created}}</td>
+                        <td>{{order.status}}</td>
+                        <td><a href="#" class='btn-outline-success btn '>Update</a></td>
+                        <td><a href="#" class='btn-outline-danger btn '>Delete</a></td>
+                    </tr>
+                {% endfor %}
 		
 			</table>
 		</div>
