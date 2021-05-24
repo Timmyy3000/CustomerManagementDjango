@@ -63,7 +63,23 @@ def create_order(response):
     context = {'form':form}
     return render(response, 'accounts/order_form.html', context)
 
-def update_order(response):
-    form = OrderForm()
+def update_order(response, pk):
+   
+
+    order = Order.objects.get(id = pk)
+    form = OrderForm(instance=order)
     context = {'form':form}
+
+    if response.method == "POST" :
+        form = OrderForm(response.POST, instance=order)
+        if form.is_valid() :
+            form.save()
+
+            return redirect('/dashboard/')
+    
     return render(response, 'accounts/order_form.html', context)
+
+def delete_order (response, pk):
+    order = Order.objects.get(id = pk)
+    context = {'order' : order}
+    return render (response, 'accounts/delete.html',context )
