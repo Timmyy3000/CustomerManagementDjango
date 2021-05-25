@@ -3,11 +3,20 @@
 {% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
-<p>Are you sure you want to delete "{{order}}"?</p>
 
-<form action="" method="POST">
+<br>
+<div class="row mb-5">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <p>Are you sure you want to delete "{{order}}"?</p>
 
-    <a href=r={% url 'dashboard' %} class="btn btn-outline-primary">Cancel</a>
-    <input type="submit" name="confirm" value="Delete" class="btn btn-danger" />
-</form>
+            <form action={% url 'delete_order' order.id %} method="POST">
+                {% csrf_token %}
+                <a href={% url 'dashboard' %} class="btn btn-outline-primary">Cancel</a>
+                <input type="submit" name="confirm" value="Delete" class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+</div>
+
 {% endblock content %}

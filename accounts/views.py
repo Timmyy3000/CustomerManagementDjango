@@ -1,5 +1,6 @@
 from django.http import request
 from django.shortcuts import redirect, render
+from django.forms import inlineformset_factory
 from .models import *
 from .forms import *
 
@@ -49,23 +50,28 @@ def customer(response, pk):
     }
     return render(response, 'accounts/customer.html', context )
 
-def create_order(response):
-    form = OrderForm()
+def create_order(response, pk):
+    
+    customer = Customer.objects.get(id = pk)
+    form = OrderForm(initial={'customer': customer})
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra = 5)
+    formset = OrderFormSet(queryset=Order.objects.none(),instance=customer)
 
     if response.method == "POST" :
         
-        form = OrderForm(response.POST)
-        if form.is_valid() :
-            form.save()
+        formset = OrderFormSet(response.POST, instance=customer)
 
-            return redirect('/dashboard/')
+        if formset.is_valid() :
+            formset.save()
 
-    context = {'form':form}
+            return redirect('/customer/' + pk)
+
+    context = {'formset':formset}
     return render(response, 'accounts/order_form.html', context)
 
 def update_order(response, pk):
    
-
+    
     order = Order.objects.get(id = pk)
     form = OrderForm(instance=order)
     context = {'form':form}
@@ -75,11 +81,18 @@ def update_order(response, pk):
         if form.is_valid() :
             form.save()
 
-            return redirect('/dashboard/')
+            return redirect('/customer/' + str(order.customer.id))
     
-    return render(response, 'accounts/order_form.html', context)
+    return render(response, 'accounts/update_form.html', context)
 
 def delete_order (response, pk):
     order = Order.objects.get(id = pk)
     context = {'order' : order}
+
+    if response.method == "POST" :
+        
+        order.delete()
+
+        return redirect('/customer/' + str(order.customer.id))
+
     return render (response, 'accounts/delete.html',context )
