@@ -46,7 +46,9 @@ def customer(response, pk):
     orders = customer.order_set.all()
     total_orders = orders.count()
 
-    my_filter = OrderFilter()
+    my_filter = OrderFilter(response.GET, queryset=orders)
+    orders= my_filter.qs
+
     context = {
         'customer' : customer,
         'orders' : orders,
@@ -54,6 +56,9 @@ def customer(response, pk):
         'filter' : my_filter
     }
     return render(response, 'accounts/customer.html', context )
+
+
+# Create order view
 
 def create_order(response, pk):
     
@@ -74,6 +79,9 @@ def create_order(response, pk):
     context = {'formset':formset}
     return render(response, 'accounts/order_form.html', context)
 
+
+# Update order view 
+
 def update_order(response, pk):
    
     
@@ -90,7 +98,9 @@ def update_order(response, pk):
     
     return render(response, 'accounts/update_form.html', context)
 
+# delete order view
 def delete_order (response, pk):
+
     order = Order.objects.get(id = pk)
     context = {'order' : order}
 
@@ -101,3 +111,60 @@ def delete_order (response, pk):
         return redirect('/customer/' + str(order.customer.id))
 
     return render (response, 'accounts/delete.html',context )
+
+# Create customer view 
+def create_customer (response):
+
+    form = CustomerCreaionForm()
+    
+    
+    if response.method == "POST" :
+        
+        form = CustomerCreaionForm(response.POST)
+
+        if form.is_valid() :
+            form.save()
+            return redirect('/dashboard/')
+        
+    context = {'form':form}
+
+    return render(response, 'accounts/create_customer.html', context)
+
+# Update customer view 
+
+def update_customer(response, pk):
+   
+    
+    customer = Customer.objects.get(id = pk)
+
+    form = CustomerCreaionForm(instance=customer)
+
+    context = {'form':form}
+
+    if response.method == "POST" :
+        form = CustomerCreaionForm(response.POST, instance=customer)
+        if form.is_valid() :
+            form.save()
+
+            return redirect('/customer/' + str(customer.id))
+    
+    return render(response, 'accounts/update_form.html', context)
+
+# delete customer view
+def delete_customer (response, pk):
+
+    customer = Customer.objects.get(id = pk)
+
+    
+    context = {'customer' : customer}
+
+    if response.method == "POST" :
+        
+        customer.delete()
+
+        return redirect('/dashboard/')
+
+    return render (response, 'accounts/delete_customer.html',context )
+
+
+

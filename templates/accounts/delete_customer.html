@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block navbar %}{% include 'partials/navbar.html' %}{% endblock navbar %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<br>
+<div class="row mb-5">
+    <div class="col-md-6">
+        <div class="card card-body">
+            <p>Are you sure you want to delete "{{customer}}"?</p>
+
+            <form action={% url 'delete_customer' customer.id %} method="POST">
+                {% csrf_token %}
+                <a href={% url 'customer' customer.id %} class="btn btn-outline-primary">Cancel</a>
+                <input type="submit" name="confirm" value="Delete" class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
