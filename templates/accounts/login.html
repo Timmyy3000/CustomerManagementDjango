@@ -1,15 +1,79 @@
 {% extends 'base.html' %}
 
-{% block title %}Login Here{% endblock title %}
-
-{% load crispy_forms_tags %}
+{% block title %}Registration{% endblock title %}
 
 {% block content %}
-<form  method='POST' class="form-group">
-    {% csrf_token %}
-    {{form | crispy}}
-    <p>Don't have an accout? Create one <a href="/register">here</a></p>
 
-    <button class="btn btn-success">Login</button> 
-</form>
+
+      <div class="mask d-flex align-items-center h-100" style="background-color: rgba(0, 0, 0, 0.8);">
+        <div class="container">
+          <div class="row justify-content-center">
+            <div class="col-xl-5 col-md-8">
+            
+              <form  method="POST" action="" class="bg-white rounded shadow-5-strong p-5">
+              <h3 class="text-center"> Login </h3>
+              
+                   {% csrf_token %}
+                  
+                <!-- username input -->
+                <div class="form-outline mb-4">
+                 
+                 {{form.username}}
+                 
+                  
+                </div>
+                <!-- Password input -->
+                <div class="form-outline mb-4">
+                   {{form.password}}
+                </div>
+
+                
+
+
+                {% comment %} <!-- 2 column grid layout for inline styling -->
+                <div class="row mb-4">
+                  <div class="col d-flex justify-content-center">
+                    <!-- Checkbox -->
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="form1Example3" checked />
+                      <label class="form-check-label" for="form1Example3">
+                        Remember me
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="col text-center">
+                    <!-- Simple link -->
+                    <a href="#!">Forgot password?</a>
+                  </div>
+                </div> {% endcomment %}
+
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                <br>
+                 <p class="text-center">Don't have an account ? Sign Up <a href="/register">here</a></p> 
+              </form>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+						/* Because i didnt set placeholder values in forms.py they will be set here using vanilla Javascript
+		//We start indexing at one because CSRF_token is considered and input field 
+		 */
+
+		//Query All input fields
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username..';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
+
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+	</script>
+
 {% endblock content %}

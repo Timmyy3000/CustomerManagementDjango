@@ -4,7 +4,31 @@ from django.shortcuts import redirect, render
 from django.forms import inlineformset_factory
 from .models import *
 from .forms import *
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 # from .filters import OrderFilter
+
+
+# login in page
+def login (response):
+    context ={}
+    return render(response, 'accounts/login.html', context)
+
+# register 
+def register (response):
+
+    form = RegisterForm()
+
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+        if form.is_valid() :
+            form.save()
+
+            return redirect ('/login/')
+
+    context ={'form' : form}
+
+    return render(response, 'accounts/register.html', context)
 
 # home page
 def index(response):
@@ -115,12 +139,12 @@ def delete_order (response, pk):
 # Create customer view 
 def create_customer (response):
 
-    form = CustomerCreaionForm()
+    form = CustomerCreationForm()
     
     
     if response.method == "POST" :
         
-        form = CustomerCreaionForm(response.POST)
+        form = CustomerCreationForm(response.POST)
 
         if form.is_valid() :
             form.save()
@@ -137,12 +161,12 @@ def update_customer(response, pk):
     
     customer = Customer.objects.get(id = pk)
 
-    form = CustomerCreaionForm(instance=customer)
+    form = CustomerCreationForm(instance=customer)
 
     context = {'form':form}
 
     if response.method == "POST" :
-        form = CustomerCreaionForm(response.POST, instance=customer)
+        form = CustomerCreationForm(response.POST, instance=customer)
         if form.is_valid() :
             form.save()
 
@@ -165,6 +189,3 @@ def delete_customer (response, pk):
         return redirect('/dashboard/')
 
     return render (response, 'accounts/delete_customer.html',context )
-
-
-
