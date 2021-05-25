@@ -10,27 +10,21 @@
           <div class="row justify-content-center">
             <div class="col-xl-5 col-md-8">
             
-              <form  method="POST" action="" class="bg-white rounded shadow-5-strong p-5">
-              <h3 class="text-center"> Login </h3>
-              
-                   {% csrf_token %}
-                  
-                <!-- username input -->
+               <form class="bg-white rounded shadow-5-strong p-5">
+                   <h3 class="text-center"> Register</h3>
+                <!-- Email input -->
                 <div class="form-outline mb-4">
-                 
-                 {{form.username}}
-                 
-                  
+                  <input type="email" id="form1Example1" class="form-control" />
+                  <label class="form-label" for="form1Example1">Email address</label>
                 </div>
+
                 <!-- Password input -->
                 <div class="form-outline mb-4">
-                   {{form.password}}
+                  <input type="password" id="form1Example2" class="form-control" />
+                  <label class="form-label" for="form1Example2">Password</label>
                 </div>
 
-                
-
-
-                {% comment %} <!-- 2 column grid layout for inline styling -->
+                <!-- 2 column grid layout for inline styling -->
                 <div class="row mb-4">
                   <div class="col d-flex justify-content-center">
                     <!-- Checkbox -->
@@ -46,12 +40,10 @@
                     <!-- Simple link -->
                     <a href="#!">Forgot password?</a>
                   </div>
-                </div> {% endcomment %}
+                </div>
 
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
-                <br>
-                 <p class="text-center">Don't have an account ? Sign Up <a href="/register">here</a></p> 
+                <button type="submit" class="btn btn-primary btn-block">Sign in</button>
               </form>
               
             </div>

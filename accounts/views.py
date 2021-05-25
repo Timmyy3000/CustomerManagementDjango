@@ -23,6 +23,8 @@ def register (response):
         form = RegisterForm(response.POST)
         if form.is_valid() :
             form.save()
+            user_name = form.cleaned_data.get('username')
+            messages.success(response, "Account Created Successfully for " + user_name)
 
             return redirect ('/login/')
 
