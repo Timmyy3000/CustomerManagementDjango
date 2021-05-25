@@ -1,8 +1,10 @@
+from accounts.filters import OrderFilter
 from django.http import request
 from django.shortcuts import redirect, render
 from django.forms import inlineformset_factory
 from .models import *
 from .forms import *
+# from .filters import OrderFilter
 
 # home page
 def index(response):
@@ -43,10 +45,13 @@ def customer(response, pk):
     customer = Customer.objects.get(id =pk)
     orders = customer.order_set.all()
     total_orders = orders.count()
+
+    my_filter = OrderFilter()
     context = {
         'customer' : customer,
         'orders' : orders,
-        'total_orders' : total_orders
+        'total_orders' : total_orders,
+        'filter' : my_filter
     }
     return render(response, 'accounts/customer.html', context )
 
