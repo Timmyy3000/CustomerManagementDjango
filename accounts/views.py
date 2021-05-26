@@ -9,58 +9,56 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+
+from .decorators import * 
 # from .filters import OrderFilter
 
+# user page
+def user_profile (response):
 
-# login in page
-def loginPage (response):
-    context ={}
-    if response.user.is_authenticated :
+    return render(response,'accounts/profile.html')
 
-        return redirect('/dashboard')
-    else :
-
-        if response.method == "POST":
-            username = response.POST.get("username")
-            password = response.POST.get("password")
-
-            print(response.POST)
-
-            user = authenticate(response, username = username , password = password)
-
-            if user is not None :
-                login(response, user)
-                return redirect('dashboard')
-            else :
-                messages.error(response, "Username or Password is incorrect")
-            
-        
-    return render(response, 'accounts/login.html', context)
-
+#logout
 def logoutUser(response):
     logout(response)
     return redirect('/')
 
+# login in page
+@unathenticated_user
+def loginPage (response):
+    context ={}
+
+    if response.method == "POST":
+        username = response.POST.get("username")
+        password = response.POST.get("password")
+
+        print(response.POST)
+
+        user = authenticate(response, username = username , password = password)
+
+        if user is not None :
+            login(response, user)
+            return redirect('dashboard')
+        else :
+            messages.error(response, "Username or Password is incorrect")
+        
+        
+    return render(response, 'accounts/login.html', context)
+
 
 # register 
+@unathenticated_user
 def register (response):
-    form = RegisterForm()
+    form = RegisterForm()        
 
-    if response.user.is_authenticated :
+    if response.method == "POST":
+        form = RegisterForm(response.POST)
+        if form.is_valid() :
+            form.save()
+            user_name = form.cleaned_data.get('username')
+            messages.success(response, "Account Created Successfully for " + user_name)
 
-        return redirect('/dashboard')
-    else :
-
-        
-
-        if response.method == "POST":
-            form = RegisterForm(response.POST)
-            if form.is_valid() :
-                form.save()
-                user_name = form.cleaned_data.get('username')
-                messages.success(response, "Account Created Successfully for " + user_name)
-
-                return redirect ('/login/')
+            return redirect ('/login/')
 
     context ={'form' : form}
 
@@ -73,6 +71,7 @@ def index(response):
 
 # dashborad view
 @login_required(login_url='login')
+@admin_only
 def dashboard(response):
 
     orders = Order.objects.all()
