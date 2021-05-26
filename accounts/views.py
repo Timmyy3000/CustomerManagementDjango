@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 from .decorators import * 
 # from .filters import OrderFilter
@@ -54,7 +55,10 @@ def register (response):
     if response.method == "POST":
         form = RegisterForm(response.POST)
         if form.is_valid() :
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name = "Customer")
+            user.groups.add(group)
+            
             user_name = form.cleaned_data.get('username')
             messages.success(response, "Account Created Successfully for " + user_name)
 
