@@ -24,8 +24,16 @@
       </li>
     </ul>
 
-    
-    <a class="nav-item btn btn-outline-primary" href="/register/">Sign up</a>
+    {% if user.username %}
+     <span class="nav-item mr-3">Hello,{{user}}</span>
+    <a class="nav-item btn btn-outline-primary" href={% url 'logout' %}>Log Out</a>
+
+    {% else %}
+        <a class="nav-item btn btn-success mr-3" href={% url 'login' %}>Log In</a>
+    <a class="nav-item btn btn-outline-primary" href={% url 'register' %}>Sign up</a>
+    {% endif %}
+
+
     {% comment %} <a class="nav-item text-light nav-link" href="logout/">Log Out</a> {% endcomment %}
   </div>
 
