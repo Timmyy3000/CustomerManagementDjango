@@ -1,3 +1,4 @@
+from django.db.models.base import Model
 from django.forms import ModelForm, widgets, TextInput, Select
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
@@ -16,7 +17,12 @@ class CustomerCreationForm(ModelForm):
         fields = '__all__'
        
 class RegisterForm(UserCreationForm):
-
     class Meta :
         model = User
         fields = ['username','email','password1', 'password2']
+
+class CustomerUpdateForm(ModelForm):
+    class Meta :
+        model = Customer
+        fields = "__all__"
+        exclude = ['user']

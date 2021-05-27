@@ -58,7 +58,7 @@ def register (response):
             user = form.save()
             group = Group.objects.get(name = "Customer")
             user.groups.add(group)
-            
+
             user_name = form.cleaned_data.get('username')
             messages.success(response, "Account Created Successfully for " + user_name)
 
@@ -96,8 +96,22 @@ def dashboard(response):
     }
     return render(response, 'accounts/dashboard.html', context)
 
-# products view 
+# account setting view 
+def account_settings(response):
+    customer = response.user.customer
+    form = CustomerUpdateForm(instance = customer)
 
+    if response.method == "POST":
+
+        form = CustomerUpdateForm(response.POST, response.FILES, instance=customer)
+
+        if form.is_valid:
+            form.save()
+            messages.success(response, "Details updated successfully")
+    
+    context = {'form' : form}
+    return render(response,'accounts/account_settings.html', context)
+# products view 
 def products(response):
     products = Product.objects.all()
     context = {
