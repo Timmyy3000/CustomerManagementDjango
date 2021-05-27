@@ -2,19 +2,21 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.deletion import CASCADE
 
+
 class Customer (models.Model):
 
     user =models.OneToOneField(User, null=True,blank=True, on_delete=CASCADE)
-    name = models.CharField(max_length=200, null=True)
-    email = models.CharField(max_length=200, null=True)
-    phone = models.CharField(max_length=200, null=True)
-    date_created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=200, null=True,blank=True)
+    email = models.CharField(max_length=200, null=True,blank=True)
+    phone = models.CharField(max_length=200, null=True,blank=True)
+    date_created = models.DateTimeField(auto_now_add=True,blank=True)
     profile_pic = models.ImageField( default="profile1.jpg", null=True, blank=True)
 
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
+      
 class Tag (models.Model):
 
     name = models.CharField(max_length=200, null=True)
