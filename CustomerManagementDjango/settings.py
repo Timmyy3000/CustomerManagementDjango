@@ -81,10 +81,10 @@ WSGI_APPLICATION = 'CustomerManagementDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'Demo_test',
-        'USER' : 'postgres',
-        'PASSWORD' : 'Timmy~zee3000',
-        'HOST' : 'localhost',
+        'NAME': 'demo-1',
+        'USER' : 'timmy',
+        'PASSWORD' : 'timmy3000',
+        'HOST' : 'database-2.ceigsuvxte63.us-east-2.rds.amazonaws.com',
         'PORT' : 5432
 
     }
